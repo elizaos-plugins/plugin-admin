@@ -1,0 +1,33 @@
+# Source files
+src/
+__tests__/
+
+# Config files
+tsconfig.json
+tsconfig.build.json
+tsup.config.ts
+vitest.config.ts
+
+# Development files
+.env
+.env.*
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Testing
+coverage/
+*.test.ts
+*.spec.ts
+
+# Build artifacts
+*.tsbuildinfo
+
+# Documentation sources
+docs/
+
+# Git
+.git/
+.gitignore 
