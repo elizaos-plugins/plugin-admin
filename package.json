@@ -1,6 +1,6 @@
 {
   "name": "@elizaos/plugin-admin",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Admin plugin for elevating privileges and performing global queries across the ElizaOS agent runtime.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
