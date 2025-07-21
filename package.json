@@ -1,6 +1,6 @@
 {
   "name": "@elizaos/plugin-admin",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Admin plugin for elevating privileges and performing global queries across the ElizaOS agent runtime.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -8,6 +8,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
@@ -20,8 +23,8 @@
     "admin",
     "privileges"
   ],
-  "author": "ElizaOS Core Team",
-  "license": "Apache-2.0",
+  "author": "elizaOS",
+  "license": "MIT",
   "dependencies": {
     "@elizaos/core": "latest",
     "zod": "^4.0.5"
