@@ -1,6 +1,6 @@
 # @elizaos/plugin-admin
 
-> ⚠️  **Secure by default** – The plugin is a no-op until admin privileges are explicitly unlocked by providing the correct `ADMIN_PASSWORD`.
+> ⚠️  **Secure by default** – The plugin is a no-op until admin features are explicitly unlocked by providing the correct `ADMIN_PASSWORD`.
 
 A privileged plugin for ElizaOS that allows power-users to inspect and query **global** agent data that is normally sandboxed to the active room/channel.
 
@@ -8,7 +8,7 @@ A privileged plugin for ElizaOS that allows power-users to inspect and query **g
 
 | Capability | Action | Description |
 |------------|--------|-------------|
-| Elevate privileges | `ELEVATE_PRIVILEGE` | Validate the admin password and unlock all other actions/providers |
+| Unlock Admin Features | `UNLOCK_ADMIN_FEATURES` | Validate the admin secret key and unlock all other actions/providers |
 | Daily activity report | `GLOBAL_REPORT` | Aggregate message counts per room for a given day |
 | List all users | `LIST_ALL_USERS` | Returns every user the agent knows about |
 | List all rooms | `LIST_ALL_ROOMS` | Returns all chat rooms/channels |
@@ -39,9 +39,9 @@ Add the plugin to your agent's character file:
 
 | Env Var | Required | Description |
 |---------|----------|-------------|
-| `ADMIN_PASSWORD` | **Yes** | The plaintext password that will grant admin privileges |
+| `ADMIN_PASSWORD` | **Yes** | The plaintext secret key that will unlock admin features |
 
-**Never** commit the password – store it in your project‐local `.env`.
+**Never** commit the secret key – store it in your project‐local `.env`.
 
 ```env
 ADMIN_PASSWORD=super-secret-value
@@ -49,27 +49,23 @@ ADMIN_PASSWORD=super-secret-value
 
 ## Usage
 
-### 1. Elevate privileges
+### 1. Unlock Admin Features
 
-When chatting with the agent:
+When chatting with the agent, use a phrase that includes "admin" and "unlock" or "key", and provide the key.
 
+**Recommended phrases:**
 ```
-User → "Elevate my privileges to admin. Password: super-secret-value"
+"Unlock admin features, the key is: super-secret-value"
+"Enter admin mode, my key is super-secret-value"
+"I need to unlock admin, password: super-secret-value"
 ```
 
-The plugin will execute `ELEVATE_PRIVILEGE` automatically when it detects the pattern:
-
-```json
-{
-  "action": "ELEVATE_PRIVILEGE",
-  "options": { "password": "super-secret-value" }
-}
-```
+The plugin will execute `UNLOCK_ADMIN_FEATURES` automatically.
 
 On success, the agent responds:
 
 ```
-✅ Admin privileges granted. You now have access to global commands.
+✅ Administrative features unlocked. You now have access to global commands.
 ```
 
 All subsequent admin actions & providers become available for the session's lifetime.
@@ -80,14 +76,14 @@ All subsequent admin actions & providers become available for the session's life
 "Give me a global report for today."            → GLOBAL_REPORT
 "List all users."                               → LIST_ALL_USERS
 "List all rooms."                               → LIST_ALL_ROOMS
-"Search all messages for 'production outage'."  → SEARCH_MESSAGES { query: "production outage" }
-"Audit user abc123."                            → USER_AUDIT { userId: "abc123" }
+"Search all messages for 'production outage'."  → SEARCH_MESSAGES
+"Audit user abc123."                            → USER_AUDIT
 ```
 
 ## Actions
 
-### ELEVATE_PRIVILEGE
-Unlock admin functionality by providing the correct password.
+### UNLOCK_ADMIN_FEATURES
+Unlock admin functionality by providing the correct secret key.
 - Validates against `ADMIN_PASSWORD` environment variable
 - Uses SHA-256 hashing for security
 - Unlocks all other admin actions once validated
@@ -123,7 +119,7 @@ Generate a detailed audit report for a specific user.
 
 ## Global Context Provider
 
-When admin privileges are unlocked, the `GLOBAL_CONTEXT` provider automatically injects:
+When admin features are unlocked, the `GLOBAL_CONTEXT` provider automatically injects:
 - Summary of last 50 messages across all rooms
 - Message counts per room
 - Formatted for LLM context understanding
@@ -136,7 +132,7 @@ This enables the agent to answer questions like:
 ## Security Considerations
 
 1. **Password Hashing** – The plugin only stores a SHA-256 hash in memory. The plaintext password never leaves `process.env`.
-2. **Session-based** – Admin privileges are granted per runtime session. Restarting the agent requires re-authentication.
+2. **Session-based** – Admin features are granted per runtime session. Restarting the agent requires re-authentication.
 3. **Read-only** – Current actions are *read* queries. If you add write operations, double-check permissions.
 4. **Audit logs** – Consider emitting events whenever an admin action runs to keep an audit trail.
 
@@ -169,7 +165,7 @@ bun run dev
 
 When adding new admin actions:
 1. Create action in `src/actions/`
-2. Check admin privileges in validate & handler
+2. Check admin status in validate & handler
 3. Use proper ElizaOS database methods (not raw SQL)
 4. Add comprehensive examples
 5. Update this README

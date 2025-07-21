@@ -1,7 +1,7 @@
 import { Plugin } from '@elizaos/core';
 import { AdminService } from './services/admin';
 
-import { elevatePrivilegeAction } from './actions/elevatePrivilege';
+import { unlockAdminAction } from './actions/unlockAdmin';
 import { globalReportAction } from './actions/globalReport';
 import { listAllUsersAction } from './actions/listAllUsers';
 import { listAllRoomsAction } from './actions/listAllRooms';
@@ -16,7 +16,7 @@ export const adminPlugin: Plugin = {
     'Provides privileged administrative actions and global context providers once unlocked via an admin password.',
   services: [AdminService],
   actions: [
-    elevatePrivilegeAction, 
+    unlockAdminAction, 
     globalReportAction, 
     listAllUsersAction, 
     listAllRoomsAction,
