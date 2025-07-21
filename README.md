@@ -23,12 +23,16 @@ Once unlocked, the `GLOBAL_CONTEXT` provider injects a rolling summary of the la
 bun install @elizaos/plugin-admin
 ```
 
-Add the plugin **after** your bootstrap/default plugins:
+Add the plugin to your agent's character file:
 
-```ts
-import { adminPlugin } from '@elizaos/plugin-admin';
-
-agent.registerPlugin(adminPlugin);
+```json
+{
+  "name": "MyAgent",
+  "plugins": [
+    "@elizaos/plugin-bootstrap",
+    "@elizaos/plugin-admin"
+  ]
+}
 ```
 
 ## Configuration
@@ -149,16 +153,16 @@ No custom SQL or schema modifications are required.
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Build the plugin
-pnpm run build
+bun run build
 
 # Run tests
-pnpm test
+bun run test
 
 # Development mode with watch
-pnpm run dev
+bun run dev
 ```
 
 ## Contributing
